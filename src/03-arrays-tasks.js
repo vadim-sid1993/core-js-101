@@ -226,8 +226,15 @@ function getTail(arr, n) {
  *    +'20,21,22,23,24\n'
  *    +'30,31,32,33,34'
  */
-function toCsvText(/* arr */) {
-  throw new Error('Not implemented');
+function toCsvText(arr) {
+  // throw new Error('Not implemented');
+  const result = arr.map((item, i) => {
+    if (i < arr.length - 1) {
+      return `${item.join(',')}\n`;
+    }
+    return `${item.join(',')}`;
+  });
+  return result.join('');
 }
 
 /**
@@ -517,8 +524,14 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  // throw new Error('Not implemented');
+  const result = new Array(n).fill([]);
+  return result.map((item, i) => {
+    const arr = new Array(n).fill(0);
+    arr[i] = 1;
+    return arr;
+  });
 }
 
 /**
@@ -593,8 +606,22 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  // throw new Error('Not implemented');
+  const result = array.reduce((prev, item) => {
+    const key = keySelector(item);
+    const value = valueSelector(item);
+    if (!!prev.get(key) && (prev.get(key)).includes(value)) {
+      return prev;
+    }
+    if (!!prev.get(key) && !prev.get(key).includes(value)) {
+      prev.set(key, ([...prev.get(key), value]));
+      return prev;
+    }
+    prev.set(key, [value]);
+    return prev;
+  }, new Map());
+  return result;
 }
 
 
@@ -655,8 +682,19 @@ function getElementByIndexes(arr, indexes) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  // throw new Error('Not implemented');
+  if (arr.length <= 3) return arr.reverse();
+  if (arr.length % 2 === 0) {
+    const center = Math.floor(arr.length / 2);
+    const head = arr.slice(0, center);
+    const tail = arr.slice(center);
+    return [...tail, ...head];
+  }
+  const center = Math.floor(arr.length / 2);
+  const head = arr.slice(0, center);
+  const tail = arr.slice(center + 1);
+  return [...tail, arr[center], ...head];
 }
 
 
